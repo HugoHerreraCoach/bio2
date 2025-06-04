@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { FaWhatsapp, FaTiktok, FaInstagram, FaFacebookF, FaDownload, FaBook, FaBookOpen } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaBook, FaWhatsapp, FaMusic } from 'react-icons/fa';
+import { IoDocumentText } from 'react-icons/io5';
+import { BsInstagram, BsFacebook } from 'react-icons/bs';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 
@@ -86,7 +88,7 @@ const LeadModal = ({ isOpen, onClose, onSubmit }: {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="modal-content w-full max-w-md transform rounded-2xl p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="modal-content w-full max-w-md transform p-6 text-left align-middle shadow-xl transition-all">
                 <div className="flex justify-between items-center mb-5">
                   <Dialog.Title
                     as="h3"
@@ -146,22 +148,9 @@ const LeadModal = ({ isOpen, onClose, onSubmit }: {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-white text-black font-medium py-3 px-4 rounded-lg hover:bg-gray-200 disabled:opacity-70 flex items-center justify-center"
+                    className="w-full bg-white text-black font-medium py-3 px-4 rounded-lg hover:bg-gray-200 disabled:opacity-70"
                   >
-                    {isSubmitting ? (
-                      <span className="flex items-center">
-                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Enviando...
-                      </span>
-                    ) : (
-                      <span className="flex items-center">
-                        <FaDownload className="mr-2" />
-                        Descargar ahora
-                      </span>
-                    )}
+                    {isSubmitting ? 'Enviando...' : 'Descargar ahora'}
                   </button>
                 </form>
               </Dialog.Panel>
@@ -176,14 +165,16 @@ const LeadModal = ({ isOpen, onClose, onSubmit }: {
 // Componente para los enlaces
 const LinkCard = ({ 
   icon, 
-  title, 
+  title,
+  subtitle,
   href, 
   onClick, 
   newTab = true,
   delay = 0
 }: { 
   icon: React.ReactNode; 
-  title: string; 
+  title: string;
+  subtitle: string;
   href: string; 
   onClick?: (e: React.MouseEvent) => void; 
   newTab?: boolean;
@@ -191,21 +182,24 @@ const LinkCard = ({
 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.2 + (delay * 0.1) }}
+      transition={{ duration: 0.3, delay: 0.1 + (delay * 0.1) }}
     >
       <a
         href={href}
         onClick={onClick}
         target={newTab ? "_blank" : "_self"}
         rel={newTab ? "noopener noreferrer" : ""}
-        className="link-card w-full flex items-center p-4 mb-4"
+        className="link-card w-full flex items-center p-4"
       >
-        <div className="icon-container mr-4">
+        <div className="icon-container mr-4 text-white">
           {icon}
         </div>
-        <span className="font-medium text-lg">{title}</span>
+        <div>
+          <div className="font-medium text-base">{title}</div>
+          <div className="text-sm text-gray-400">{subtitle}</div>
+        </div>
       </a>
     </motion.div>
   );
@@ -244,15 +238,10 @@ export default function Home() {
   if (!mounted) return null;
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen py-6 px-4 md:py-0">
-      <div className="w-full md:desktop-container">
-        <motion.div 
-          className="profile-container flex flex-col items-center mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="relative w-32 h-32 md:w-36 md:h-36 mb-5">
+    <main className="flex flex-col items-center justify-center min-h-screen py-6 px-4">
+      <div className="w-full max-w-md mx-auto">
+        <div className="profile-container flex flex-col items-center mb-6">
+          <div className="profile-image-container">
             <Image
               src="/images/hugo-400x400.jpg"
               alt="Hugo Herrera"
@@ -261,28 +250,25 @@ export default function Home() {
               priority
             />
           </div>
-          <motion.h1 
-            className="text-2xl font-bold text-center mb-1"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
+          <h1 className="text-3xl font-bold text-center mb-1">
             Hugo Herrera
-          </motion.h1>
-          <motion.p 
-            className="text-base text-gray-300 text-center max-w-xs"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
+          </h1>
+          <p className="text-base text-gray-300 text-center">
             Coach en Ventas y Creador de Estrategias Comerciales
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
 
-        <div className="w-full max-w-md mx-auto space-y-4 mb-8">
+        <div className="quote-container">
+          <p className="text-center text-gray-300 italic">
+            &ldquo;Transformando vendedores en cerradores expertos y líderes en resultados&rdquo;
+          </p>
+        </div>
+
+        <div className="w-full space-y-3 my-6">
           <LinkCard 
-            icon={<FaDownload size={20} className="text-white" />}
+            icon={<FaMapMarkerAlt size={20} />}
             title="Descarga el Mapa de Objeciones" 
+            subtitle="Guía gratuita para cerrar más ventas"
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -293,57 +279,54 @@ export default function Home() {
           />
           
           <LinkCard 
-            icon={<FaBook size={20} className="text-white" />}
+            icon={<FaBook size={20} />}
             title="Libro Cerrador Experto" 
+            subtitle="Domina las técnicas de cierre"
             href="https://cerradorexperto.hugoherreracoach.com/"
             delay={1}
           />
           
           <LinkCard 
-            icon={<FaBookOpen size={20} className="text-white" />}
+            icon={<IoDocumentText size={20} />}
             title="Libro Líder Experto" 
+            subtitle="Desarrolla tu liderazgo comercial"
             href="https://liderexperto.hugoherreracoach.com/"
             delay={2}
           />
           
           <LinkCard 
-            icon={<FaWhatsapp size={20} className="text-white" />}
+            icon={<FaWhatsapp size={20} />}
             title="WhatsApp Directo" 
+            subtitle="Conversemos sobre tus objetivos"
             href="https://api.whatsapp.com/send?phone=51900239201&text=¡Hola Hugo! 😃 Mi nombre es..."
             newTab={false}
             delay={3}
           />
           
           <LinkCard 
-            icon={<FaTiktok size={20} className="text-white" />}
+            icon={<FaMusic size={20} />}
             title="TikTok" 
+            subtitle="@hugoherreracoach"
             href="https://www.tiktok.com/@hugoherreracoach"
             delay={4}
           />
           
           <LinkCard 
-            icon={<FaInstagram size={20} className="text-white" />}
+            icon={<BsInstagram size={20} />}
             title="Instagram" 
+            subtitle="@hugoherreracoach"
             href="https://www.instagram.com/hugoherreracoach"
             delay={5}
           />
           
           <LinkCard 
-            icon={<FaFacebookF size={20} className="text-white" />}
+            icon={<BsFacebook size={20} />}
             title="Facebook" 
+            subtitle="@hugoherreracoach"
             href="https://www.facebook.com/hugoherreracoach"
             delay={6}
           />
         </div>
-
-        <motion.footer 
-          className="mt-10 text-center text-sm text-gray-400"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-        >
-          © {new Date().getFullYear()} Hugo Herrera Coach
-        </motion.footer>
       </div>
 
       <LeadModal 
