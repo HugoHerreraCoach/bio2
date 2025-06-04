@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Poppins', 'sans-serif'],
       },
       colors: {
         dark: {
@@ -26,6 +26,7 @@ const config: Config = {
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease forwards',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
         fadeIn: {
@@ -36,6 +37,11 @@ const config: Config = {
       boxShadow: {
         'card': '0 4px 6px rgba(0, 0, 0, 0.1)',
         'card-hover': '0 6px 12px rgba(0, 0, 0, 0.15)',
+        'profile': '0 10px 25px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1)',
+        'profile-hover': '0 15px 35px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.2)',
+      },
+      backdropBlur: {
+        'xs': '2px',
       },
     },
   },
